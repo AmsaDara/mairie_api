@@ -1,10 +1,10 @@
 
 
 
-const article = (Article) => async (blog) =>{
-    const _blog = new Article(blog);
+const article = (Article) => async (Article) =>{
+    const _Article = new Article(Article);
     try {
-        const result = await _blog.save();
+        const result = await _Article.save();
         if(result){
             return({
                 status:'success',
@@ -55,9 +55,9 @@ const authenticate = User => async (email,password)=>{
     }
 }
 
-const getAllArticle = (Blog) => async()=>{
+const getAllArticle = (Article) => async()=>{
     try {
-        const result = await Blog.find();
+        const result = await Article.find();
         if(result){
             return({
                 status:'success',
@@ -74,9 +74,9 @@ const getAllArticle = (Blog) => async()=>{
     }
 }
 
-const getFeaturedArticle = (Blog)=>async ()=>{
+const getFeaturedArticle = (Article)=>async ()=>{
     try {
-        const result = await Blog.find({featured:true});
+        const result = await Article.find({featured:true});
         if(result){
             return({
                 status:'success',
@@ -93,21 +93,37 @@ const getFeaturedArticle = (Blog)=>async ()=>{
     }
 }
 
-const getArticleById = User => async(id)=>{
-    
-}
+const articleId = (Article)=>async (id)=>{
+    //console.log(id);
+    try {
+        const result = await Article.findById(id);
+        if(result){
+            return({
+                status:'success',
+                message:'content of a article by its identifier',
+                payload:result
+            })
+        }
+    } catch (error) {
+        return({
+            status:'fail',
+            message:'Sorry',
+            payload: error
+        });
+    }
+  }
 
 const updateArticle = User =>(id,newUser)=>{
     
 }
 
-module.exports = (Blog)=>{
+module.exports = (Article)=>{
     return({
-        article:article(Blog),
+        article:article(Article),
         // authenticate: authenticate(User),
-        getAllArticle:getAllArticle(Blog),
-        getFeaturedArticle:getFeaturedArticle(Blog),
-        // getUserById : getUserById(User),
+        getAllArticle:getAllArticle(Article),
+        getFeaturedArticle:getFeaturedArticle(Article),
+        articleId : articleId(Article),
         // updateUser: updateUser(User),
     });
 };

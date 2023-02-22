@@ -37,4 +37,14 @@ router.get('/featuredArticle', async function(req,res,next) {
   }
 })
 
+router.get('/:id', async function(req, res, next) {
+  console.log(req.params.id);
+    try {
+        let response = await blogService.articleId(req.params.id);
+        res.json(response);
+      } catch (error) {
+        next(error)
+      }
+});
+
 module.exports = router;
